@@ -1,5 +1,7 @@
 const request = require('request');
 
+const url = 'https://maciejtreder.github.io/asynchronous-javascript/';
+
 function calculateAverageScore(reviews, movie, director, checkedSoFar, movies) {
     checkedSoFar.count++;
     aggregatedScore = 0;
@@ -20,17 +22,17 @@ function calculateAverageScore(reviews, movie, director, checkedSoFar, movies) {
 function getReviews(movies, director) {
     let checkedSoFar = {count: 0};
     movies.forEach(movie => {
-        request(`https://maciejtreder.github.io/asynchronous-javascript/movies/${movie.id}/reviews`, {json: true}, (err, res, body) => calculateAverageScore(body, movie, director, checkedSoFar, movies));
+        request(`${url}movies/${movie.id}/reviews`, {json: true}, (err, res, body) => calculateAverageScore(body, movie, director, checkedSoFar, movies));
     });
 }
 
 function findDirector(directors, name) {
     let directorId = directors.find(director => director.name === name).id;
-    request(`https://maciejtreder.github.io/asynchronous-javascript/directors/${directorId}/movies`, {json: true}, (err, res, body) => getReviews(body, name));
+    request(`${url}directors/${directorId}/movies`, {json: true}, (err, res, body) => getReviews(body, name));
 }
  
 
-request(`https://maciejtreder.github.io/asynchronous-javascript/directors`, {json: true}, (err, res, body) => findDirector(body, 'Quentin Tarantino'));
-request(`https://maciejtreder.github.io/asynchronous-javascript/directors`, {json: true}, (err, res, body) => findDirector(body, 'Stanley Kubrick'));
-request(`https://maciejtreder.github.io/asynchronous-javascript/directors`, {json: true}, (err, res, body) => findDirector(body, 'James Cameron'));
-request(`https://maciejtreder.github.io/asynchronous-javascript/directors`, {json: true}, (err, res, body) => findDirector(body, 'Wes Anderson'));
+request(`${url}directors`, {json: true}, (err, res, body) => findDirector(body, 'Quentin Tarantino'));
+request(`${url}directors`, {json: true}, (err, res, body) => findDirector(body, 'Stanley Kubrick'));
+request(`${url}directors`, {json: true}, (err, res, body) => findDirector(body, 'James Cameron'));
+request(`${url}directors`, {json: true}, (err, res, body) => findDirector(body, 'Wes Anderson'));
